@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import classes from './App.module.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+const App = () => {
+  const data = [
+    ['NFT details', 'NFT 1'],
+    ['NFT details', 'NFT 2'],
+    ['NFT details', 'NFT 3'],
+    ['NFT details', 'NFT 4'],
+    ['NFT details', 'NFT 5'],
+    ['NFT details', 'NFT 6']
+  ];
+
+  const arrayOfHelp = data.map((data, index) => (
+    <div key={index} className={classes.box}>
+      <div className={classes.image} />
+      <div className={classes.contentWrapper}>
+        <h3>{data[1]}</h3>
+        <p>{data[0]}</p>
+        <a href="/" target="">
+          {' '}
+          {data[1]}
         </a>
-      </header>
+      </div>
+    </div>
+  ));
+
+  return (
+    <div className={classes.backgroundColour}>
+      <div className={classes.boxes}>{arrayOfHelp}</div>
     </div>
   );
-}
+};
 
 export default App;
