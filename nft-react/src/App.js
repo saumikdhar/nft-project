@@ -1,5 +1,6 @@
 import classes from './App.module.css';
 import { useEffect, useState } from 'react';
+import Button from './components/UI/Button/Button';
 import { YOUR_API_KEY } from './shared/utility';
 
 const App = () => {
@@ -24,11 +25,14 @@ const App = () => {
       </div>
       <div className={classes.contentWrapper}>
         <h3>{order.closing_date}</h3>
-        <p>Price: {+order.current_price / 1000000000000000000} ETH</p>
+        <p>Price: {+order.current_price * 0.000000000000000001} ETH</p>
         <a href="/" target="">
           {' '}
           Quantity: {order.remaining_quantity}
         </a>
+        <div className={classes.button}>
+          <Button>More info</Button>
+        </div>
       </div>
     </div>
   ));
