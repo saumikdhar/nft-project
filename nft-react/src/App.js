@@ -3,40 +3,52 @@ import { useEffect, useState } from 'react';
 import { YOUR_API_KEY } from './shared/utility';
 
 const App = () => {
-  const [nftData, setNftData] = useState(null);
+  const [nftData, setNftData] = useState({
+    orders: [
+      {
+        closing_date: 'NFT details',
+        current_price: 'NFT 1',
+        remaining_quantities: '1',
+        maker_asset_bundle: { assets: [{ image_preview_url: '' }] }
+      }
+    ]
+  });
 
-  const sampleData = [
-    ['NFT details', 'NFT 1'],
-    ['NFT details', 'NFT 2'],
-    ['NFT details', 'NFT 3'],
-    ['NFT details', 'NFT 4'],
-    ['NFT details', 'NFT 5'],
-    ['NFT details', 'NFT 6']
-  ];
-
-  const arrayOfNfts = sampleData.map((data, index) => (
+  let arrayOfNfts = nftData.orders.map((order, index) => (
     <div key={index} className={classes.box}>
-      <div className={classes.image} />
+      <div className={classes.image}>
+        <img
+          src={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
+          alt="NFT image"
+        />
+      </div>
       <div className={classes.contentWrapper}>
-        <h3>{data[1]}</h3>
-        <p>{data[0]}</p>
+        <h3>{order.closing_date}</h3>
+        <p>Price: {+order.current_price / 1000000000000000000} ETH</p>
         <a href="/" target="">
           {' '}
-          {data[1]}
+          Quantity: {order.remaining_quantity}
         </a>
       </div>
     </div>
   ));
 
   useEffect(() => {
-    // GET request using fetch inside useEffect React hook
-    fetch('https://api.opensea.io/v2/listings/collection/slug/all', {
-      method: 'POST',
-      header: 'X-API-KEY:' + { YOUR_API_KEY }
-    })
+    fetch(
+      // 'https://api.opensea.io/v2/listings/collection/slug/all'
+      'https://testnets-api.opensea.io/v2/orders/goerli/seaport/listings?limit=50',
+      {
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+        }
+        // header: 'X-API-KEY:' + { YOUR_API_KEY }
+      }
+    )
       .then(async response => {
         const data = await response.json();
 
+        console.log(data.orders.map(orders => orders));
         setNftData(data);
 
         if (!response.ok) {
@@ -47,8 +59,6 @@ const App = () => {
       .catch(error => {
         console.log('There was an error! ', error);
       });
-
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
   }, []);
 
   return (
