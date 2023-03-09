@@ -1,0 +1,7 @@
+import classes from './Spinner.module.css';
+
+const Spinner = () => {
+  return <span className={classes.Loader}></span>;
+};
+
+export default Spinner;

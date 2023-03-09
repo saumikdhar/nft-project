@@ -1,11 +1,14 @@
 import classes from './App.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Button from './components/UI/Button/Button';
 import { YOUR_API_KEY } from './shared/utility';
 import GridLayout from './components/UI/GridLayout/GridLayout';
 import Card from './components/UI/Card/Card';
+import Spinner from './components/UI/Spinner/Spinner';
 
 const App = () => {
+  const [loading, setLoading] = useState(false);
+
   const [nftData, setNftData] = useState({
     orders: [
       {
@@ -18,30 +21,24 @@ const App = () => {
   });
 
   let arrayOfNfts = nftData.orders.map((order, index) => (
-    <Card key={index}>
-      <div className={classes.image} key={index}>
-        <img
-          src={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
-          alt="NFT Logo"
-        />
-      </div>
-      <div className={classes.contentWrapper}>
-        <h3>{order.closing_date}</h3>
-        <p>Price: {+order.current_price * 0.000000000000000001} ETH</p>
-        <a href="/" target="">
-          {' '}
-          Quantity: {order.remaining_quantity}
-        </a>
-        <div className={classes.button}>
-          <Button>More info</Button>
-        </div>
+    <Card
+      key={index}
+      imgSrc={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
+      imgAlt="NFT Logo"
+      closingDate={order.closing_date}
+      orderCurrentPrice={order.current_price}
+      orderRemainingQuantity={order.remaining_quantity}
+    >
+      <div className={classes.button}>
+        <Button>More info</Button>
       </div>
     </Card>
   ));
 
   useEffect(() => {
+    setLoading(true);
     fetch(
-      // 'https://api.opensea.io/v2/listings/collection/slug/all'
+      // 'https://api.opensea.io/v2/listings/collection/slug/all' //use this when you have an api
       'https://testnets-api.opensea.io/v2/orders/goerli/seaport/listings?limit=50',
       {
         method: 'GET',
@@ -56,6 +53,7 @@ const App = () => {
 
         console.log(data.orders.map(orders => orders));
         setNftData(data);
+        setLoading(false);
 
         if (!response.ok) {
           const error = data.errors || response.statusText;
@@ -64,13 +62,14 @@ const App = () => {
       })
       .catch(error => {
         console.log('There was an error! ', error);
+        setLoading(false);
       });
   }, []);
 
   return (
     <div className={classes.backgroundColour}>
       <div className={classes.blockText}>Pick your NFT</div>
-      <GridLayout>{arrayOfNfts}</GridLayout>
+      {!isLoading ? <GridLayout>{arrayOfNfts}</GridLayout> : <Spinner />}
     </div>
   );
 };

@@ -17,69 +17,11 @@ html, body, body > div, .backgroundColour{
   -webkit-text-fill-color: transparent;
 }
 
- :hover {
-  transform: scale(1.1, 1.1);
-  }
-  .image {
-  background: #69d570;
-  background: linear-gradient(326deg, rgb(143 230 174) 0%, rgba(52, 141, 235, 1) 100%);
-  width: 100%;
-  /* padding-top: 56.25%; */
-  cursor: pointer;
-  border-radius: 30px 30px 0 0;
-}
-
-  img {
-  max-height: 300px;
-  height: 300px;
-  width: 350px;
-  border-radius: 30px 30px 0 0;
-}
-
-  .contentWrapper {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  border-radius: 0 0 30px 30px;
-  background-color: white;
-}
-  .contentWrapper h3 {
-  font-weight: 100;
-  font-size: 26px;
-  margin-top: 0;
-  cursor: pointer;
-}
-  .contentWrapper p {
-  flex-grow: 1;
-  font-size: 19px;
-  line-height: 24px;
-  margin-top: 0;
-}
-  .contentWrapper a {
-  font-weight: 800;
-  color: #000;
-  font-size: 19px;
-  transition: color 0.5s;
-  text-decoration: none;
-}
-  .contentWrapper a:hover {
-  color: #888;
-}
-
-.actions {
-  margin-top: 1.5rem;
-  /* display: flex; */
-  flex-direction: column;
-  align-items: center;
-}
-
-
-  .button{
+.Card .button{
   text-align: center;
-}
-
-  .button button {
+  }
+    
+.button button {
   cursor: pointer;
   font: inherit;
   color: white;
@@ -91,22 +33,8 @@ html, body, body > div, .backgroundColour{
   font-weight: 600;
   margin-top: 30px;
   width: 90%;
-}
-
-  .button button:hover {
+  }
+    
+.button button:hover {
   background-color: rgb(197, 86, 86);
-}
-
-  .toggle {
-  margin-top: 1rem;
-  background-color: transparent;
-  color: #5212ca;
-  border: none;
-  padding: 0.15rem 1.5rem;
-  font-size: 1.15rem;
-}
-
-.actions .toggle:hover {
-  background-color: transparent;
-  color: #0a2396;
-}
+ }
