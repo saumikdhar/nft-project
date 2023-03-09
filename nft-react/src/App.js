@@ -7,36 +7,31 @@ import Card from './components/UI/Card/Card';
 import Spinner from './components/UI/Spinner/Spinner';
 
 const App = () => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [nftData, setNftData] = useState({});
 
-  const [nftData, setNftData] = useState({
-    orders: [
-      {
-        closing_date: '',
-        current_price: '',
-        remaining_quantities: '',
-        maker_asset_bundle: { assets: [{ image_preview_url: '' }] }
-      }
-    ]
-  });
-
-  let arrayOfNfts = nftData.orders.map((order, index) => (
-    <Card
-      key={index}
-      imgSrc={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
-      imgAlt="NFT Logo"
-      closingDate={order.closing_date}
-      orderCurrentPrice={order.current_price}
-      orderRemainingQuantity={order.remaining_quantity}
-    >
-      <div className={classes.button}>
-        <Button>More info</Button>
-      </div>
-    </Card>
-  ));
+  let arrayOfNfts;
+  if (!isLoading && !errorMessage) {
+    arrayOfNfts = nftData.orders.map((order, index) => (
+      <Card
+        key={index}
+        imgSrc={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
+        imgAlt="NFT Logo"
+        closingDate={order.closing_date}
+        orderCurrentPrice={order.current_price}
+        orderRemainingQuantity={order.remaining_quantity}
+      >
+        <div className={classes.button}>
+          <Button>More Info</Button>
+        </div>
+      </Card>
+    ));
+  }
 
   useEffect(() => {
     setLoading(true);
+    setErrorMessage('');
     fetch(
       // 'https://api.opensea.io/v2/listings/collection/slug/all' //use this when you have an api
       'https://testnets-api.opensea.io/v2/orders/goerli/seaport/listings?limit=50',
@@ -61,6 +56,7 @@ const App = () => {
         }
       })
       .catch(error => {
+        setErrorMessage('Unable to load data!');
         console.log('There was an error! ', error);
         setLoading(false);
       });
@@ -69,7 +65,17 @@ const App = () => {
   return (
     <div className={classes.backgroundColour}>
       <div className={classes.blockText}>Pick your NFT</div>
-      {!isLoading ? <GridLayout>{arrayOfNfts}</GridLayout> : <Spinner />}
+      {!isLoading ? (
+        <GridLayout>{arrayOfNfts}</GridLayout>
+      ) : (
+        <div className={classes.Center}>
+          <Spinner />
+        </div>
+      )}
+
+      <div className={classes.ErrorMessage}>
+        <span>{errorMessage}</span>
+      </div>
     </div>
   );
 };
