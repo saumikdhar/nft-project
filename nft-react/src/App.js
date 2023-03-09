@@ -2,25 +2,27 @@ import classes from './App.module.css';
 import { useEffect, useState } from 'react';
 import Button from './components/UI/Button/Button';
 import { YOUR_API_KEY } from './shared/utility';
+import GridLayout from './components/UI/GridLayout/GridLayout';
+import Card from './components/UI/Card/Card';
 
 const App = () => {
   const [nftData, setNftData] = useState({
     orders: [
       {
-        closing_date: 'NFT details',
-        current_price: 'NFT 1',
-        remaining_quantities: '1',
+        closing_date: '',
+        current_price: '',
+        remaining_quantities: '',
         maker_asset_bundle: { assets: [{ image_preview_url: '' }] }
       }
     ]
   });
 
   let arrayOfNfts = nftData.orders.map((order, index) => (
-    <div key={index} className={classes.box}>
-      <div className={classes.image}>
+    <Card key={index}>
+      <div className={classes.image} key={index}>
         <img
           src={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
-          alt="NFT image"
+          alt="NFT Logo"
         />
       </div>
       <div className={classes.contentWrapper}>
@@ -34,7 +36,7 @@ const App = () => {
           <Button>More info</Button>
         </div>
       </div>
-    </div>
+    </Card>
   ));
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const App = () => {
   return (
     <div className={classes.backgroundColour}>
       <div className={classes.blockText}>Pick your NFT</div>
-      <div className={classes.boxes}>{arrayOfNfts}</div>
+      <GridLayout>{arrayOfNfts}</GridLayout>
     </div>
   );
 };
