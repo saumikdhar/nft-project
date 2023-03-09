@@ -56,6 +56,16 @@ html, body, body > div, .backgroundColour{
   margin-top: 30px;
   width: 100%;
   }
+
+.Purchase{
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
     
 .button button:hover {
   background-color: rgb(197, 86, 86);
