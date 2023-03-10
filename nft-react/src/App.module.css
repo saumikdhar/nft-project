@@ -1,6 +1,7 @@
 html, body, body > div, .backgroundColour{
   background:linear-gradient(to left, #FF6654, #FF295F);
   height: 100%;
+  font-family: -apple-system,BlinkMacSystemFont,“Segoe UI”,“Roboto”,“Oxygen”,“Ubuntu”,“Cantarell”,“Fira Sans”,“Droid Sans”,“Helvetica Neue”,sans-serif;
 }
 
 .blockText {
@@ -65,8 +66,6 @@ html, body, body > div, .backgroundColour{
   justify-content: center;
 }
 
-
-    
 .button button:hover {
   background-color: rgb(197, 86, 86);
  }
@@ -78,3 +77,47 @@ html, body, body > div, .backgroundColour{
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
  }
+
+ .actions img{
+  max-height: 600px;
+ }
+
+ .card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 750px;
+  height: 350px;
+  position: relative;
+  color: #2d2d2d;
+  background-color: #cdd8e2;
+  letter-spacing: 1px;
+  border: 25px solid transparent;
+  border-radius: 25px;
+  /* overflow: hidden; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.card .card-description {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  width: auto;
+  height: 100%;
+}
+.card .card-description .card-description-title {
+  color: black;
+  font-size: 18px;
+}
+.card .card-description .card-description-profession {
+  display: block;
+  font-size: 16px;
+}
+
+.card img {
+  width: 250px;
+  max-height: 100%;
+  object-fit: cover;
+}

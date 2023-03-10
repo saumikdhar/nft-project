@@ -1,5 +1,5 @@
 import classes from './App.module.css';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './components/UI/Button/Button';
 import { YOUR_API_KEY } from './shared/utility';
 import GridLayout from './components/UI/GridLayout/GridLayout';
@@ -12,6 +12,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [nftData, setNftData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
   let arrayOfNfts;
 
   useEffect(() => {
@@ -47,12 +48,15 @@ const App = () => {
       });
   }, []);
 
-  const showModalHandler = () => {
+  const showModalHandler = (order, event) => {
+    event.preventDefault();
+    setModalData(order);
     setShowModal(true);
     document.body.style.overflow = 'hidden';
   };
 
   const hideModalHandler = () => {
+    setModalData({});
     setShowModal(false);
     document.body.style.overflow = 'unset';
   };
@@ -60,12 +64,12 @@ const App = () => {
   if (!isLoading && !errorMessage) {
     arrayOfNfts = nftData.orders.map((order, index) => (
       <Card
-        onClick={showModalHandler}
+        onClick={event => showModalHandler(order, event)}
         id={index}
         key={index}
         imgSrc={order.maker_asset_bundle.assets.map(image => image.image_preview_url)}
         imgAlt="NFT Logo"
-        closingDate={order.closing_date}
+        closingDate={new Date(order.closing_date).toLocaleDateString()}
         orderCurrentPrice={order.current_price}
         orderRemainingQuantity={order.remaining_quantity}
       >
@@ -92,21 +96,34 @@ const App = () => {
 
       {showModal && (
         <Modal onClose={hideModalHandler}>
-          <div className={classes.actions}>
-            <h1>NFT title</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-              dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
-            </p>
-            <div className={classes.Purchase}>
-              <div className={classes.button}>
-                <Button onClick={hideModalHandler}>Purchase</Button>
+          <div className={classes.content}>
+            <div className={classes['card']}>
+              <div className={classes['card-description']}>
+                <h2 className={classes['card-description-title']}>
+                  Closing Date: {new Date(modalData.closing_date).toLocaleDateString()}
+                </h2>
+
+                <span className={classes['card-description-profession']}>
+                  Maker's Address: {modalData.maker.address}
+                </span>
+
+                {/* <span className={classes['card-description-profession']}>
+                  Description: {modalData}
+                </span> */}
+
+                <div className={classes.Purchase}>
+                  <div className={classes.button}>
+                    <Button onClick={hideModalHandler}>Purchase</Button>
+                  </div>
+                </div>
               </div>
+              <img
+                src={modalData.maker_asset_bundle.assets.map(image => image.image_preview_url)}
+                alt={'NFT Logo'}
+              />
+              {/* <p>Maker's Address: {modalData.maker.address}</p> */}
             </div>
+            <div />
           </div>
         </Modal>
       )}
