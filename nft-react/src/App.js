@@ -107,6 +107,9 @@ const App = () => {
                   Maker's Address: {modalData.maker.address}
                 </span>
 
+                <span className={classes['card-description-profession']}>
+                  Price: {+modalData.current_price * 0.000000000000000001} ETH
+                </span>
                 {/* <span className={classes['card-description-profession']}>
                   Description: {modalData}
                 </span> */}
